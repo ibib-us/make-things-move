@@ -17,8 +17,8 @@
 // Servo seems to crash the uC, not sure if this is a timing or power issue.
 
 // Servo defines for low-level operation
-#define COUNT_LOW 2000
-#define COUNT_HIGH 7600
+#define COUNT_LOW 3200
+#define COUNT_HIGH 7000 // possibly 7200
 #define TIMER_WIDTH 16
 #define SERVO_PIN 16
 #define SERVO_CHANNEL 1
