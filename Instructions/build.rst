@@ -26,6 +26,9 @@ Related Topics
 Procedure
 ---------
 
+subsubsection
+^^^^^^^^^^^^^
+
 .. list-table:: Part 0 - Organize and prepare materials.
     :widths: 5 25 50
     :header-rows: 0
@@ -55,6 +58,9 @@ Procedure
       - The steering frame has two support beams that should be removed.
       - .. image:: media/steering_frame_clips.jpg
           :width: 200 px
+
+subsubsection
+^^^^^^^^^^^^^
 
 
 .. list-table:: Part 1 - Prepare the base and assemble the drive
@@ -86,6 +92,8 @@ Procedure
 
  The drive is now complete and can be set aside until later in the build.
 
+subsubsection
+^^^^^^^^^^^^^
 
 .. list-table:: Part 3 - Assemble the steering mechanism
     :widths: 5 25 50
@@ -121,5 +129,3 @@ Next steps
 ----------
 
 
-subsubsection
-^^^^^^^^^^^^^
