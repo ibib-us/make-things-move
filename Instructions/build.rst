@@ -13,10 +13,6 @@ Purpose
 
 How to put together the chassis of your 3D printed vehicle.
 
-Context
--------
-
-The laser cutter requires air filtration, water cooling, air jet, and a network connection for proper operation.
 
 Related Topics
 --------------
@@ -62,6 +58,35 @@ subsubsection
 subsubsection
 ^^^^^^^^^^^^^
 
+.. list-table:: Part 0 - Organize and prepare materials.
+    :widths: 5 25 50
+    :header-rows: 0
+    :align: center
+
+    * - 1 
+      - All of the items you should have for the build.
+      - .. image:: media/build_plate.jpg
+            :width: 200 px
+    * - 2
+      - A complete BOM will come soon.
+      - .. image:: media/missing.jpg
+            :width: 200 px
+    * - 3
+      - Additional tools include a small (M2) allen key, craft knife and clippers
+      - .. image:: media/additional_tools.jpg
+            :width: 200 px
+    * - 4
+      - Each of the wheels was printed with a bit of material  in the center that must be removed with a craft knife.
+      - .. image:: media/wheel_cleaning.jpg
+          :width: 200 px
+    * - 5
+      - The base has two support beams that should be removed.
+      - .. image:: media/base_plate_clips.jpg
+          :width: 200 px
+    * - 6
+      - The steering frame has two support beams that should be removed.
+      - .. image:: media/steering_frame_clips.jpg
+          :width: 200 px
 
 .. list-table:: Part 1 - Prepare the base and assemble the drive
     :widths: 5 25 50
