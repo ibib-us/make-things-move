@@ -37,7 +37,7 @@ Procedure
             :width: 200 px
     * - 2
       - A complete BOM will come soon.
-      - .. image:: media/SOP0001_I02.jpg
+      - .. image:: media/missing.jpg
             :width: 200 px
     * - 3
       - Additional tools include a small (M2) allen key, craft knife and clippers
@@ -76,6 +76,29 @@ Procedure
   
  The drive is now complete and can be set aside until later in the build.
 
+.. list_table:: Part 3 - Assemble the steering mechanism
+    :widths: 5 25 50
+    :header-rows: 0
+    :align: center
+
+    * - 1
+      - Obtain the steering bar, steering arm, the two wheel blocks, the steering frame, and some bolts (2 each of  M3-8, M3-12 and M3-14)
+      - ..image:: media/steering_parts.jpg
+    * - 2
+      - Connect the two wheel blocks to the steering bar using the M3-12 bolts. Note that the wheel blocks are symmetric and do not have an *up*. The steering bar does have one side to support the countersunk bolts. 
+      - ..image:: media/steering_1.jpg
+    * - 3
+      - Turn over the steering bar and attach the steering arm using one of the M3-8 bolts. The arm has one side to support the countersunk bolts. Note that in this picture, the steering frame supports have not been clipped. If you haven't done this, do it now.
+      - ..image:: media/steering_2.jpg
+    * - 4
+      - Connect the bar/arm assembly to the frame using the remaining M3-8 bolt. Adjust the tightness of both M3-8 bolts so that the assembly moves freely but is not wobbly.
+      - ..image:: media/steering_3.jpg
+    * - 5
+      - Lastly, connect the wheel blocks to the steering frame with the M3-14 bolts.
+      - ..image:: media/steering_4.jpg
+
+  The steering assembly is now complete and can be set aside until later in the build.
+  
 
 
 Next steps
