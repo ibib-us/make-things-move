@@ -2,16 +2,23 @@
 #define GAMEPAD_H
 
 #include <unordered_map>
+#include <functional>
 
 class Gamepad {
 public:
+    struct ButtonData {
+        bool state;
+        std::function<void(bool)> callback;
+    };
+
     Gamepad();
 
     void setButtonState(const std::string& buttonName, bool newState);
     bool isButtonPressed(const std::string& buttonName) const;
 
-    // Common callback method with branching logic
-    void commonCallback(const std::string& buttonName, bool newState, bool prevState);
+    void registerCallback(const std::string& buttonName, std::function<void(bool)> callback);
+
+    static void defaultCallback(bool newState);
 
     // Function to start Dabble service
     void init(const std::string& robotName);
@@ -20,7 +27,7 @@ public:
     void update();
 
 private:
-    std::unordered_map<std::string, bool> buttonStates;
+    std::unordered_map<std::string, ButtonData> buttonStates;
 };
 
 #endif

@@ -16,7 +16,7 @@
 // Audiotools 
 // Uncomment the following line to enable audio
 //#define AUDIO_ENABLED
-#if AUDIO
+#if AUDIO_ENABLED
   #include "AudioTools.h"
   #include "AudioCodecs/CodecMP3Helix.h"
   #include "AudioLibs/AudioSourceSPIFFS.h"
@@ -47,10 +47,21 @@ int driveNeg = 21;
 
 Gamepad gamepad;
 
+void downButtonCallback(bool pressed) {
+    Serial.print("Button \"down\" was ");
+    if (pressed) {
+        Serial.print("pressed");
+    } else {
+        Serial.print("released");
+    }
+    Serial.println();
+}
+
 void setup() {
   gamepad.init(ROBOT_NAME);
+  gamepad.registerCallback("down", downButtonCallback);
 
-  #if AUDIO
+  #if AUDIO_ENABLED
     Serial.println("Audio enabled");
     AudioLogger::instance().begin(Serial, AudioLogger::Warning); // Audiotools logger level
   
@@ -82,7 +93,7 @@ void setup() {
 }
 
 void loop() {
-  #if AUDIO
+  #if AUDIO_ENABLED
     player.copy(); // refresh audio
   #endif
   gamepad.update();
