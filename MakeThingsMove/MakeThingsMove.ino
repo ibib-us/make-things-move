@@ -18,7 +18,7 @@
 // Audiotools 
 // Uncomment the following line to enable audio
 //#define AUDIO_ENABLED
-#if AUDIO
+#if AUDIO_ENABLED
   #include "AudioTools.h"
   #include "AudioCodecs/CodecMP3Helix.h"
   #include "AudioLibs/AudioSourceSPIFFS.h"
@@ -51,7 +51,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);      // make sure your Serial Monitor is also set at this baud rate.
   Dabble.begin(ROBOT_NAME);       //set bluetooth name of your device
-  #if AUDIO
+  #if AUDIO_ENABLED
     Serial.println("Audio enabled");
     AudioLogger::instance().begin(Serial, AudioLogger::Warning); // Audiotools logger level
   
@@ -83,13 +83,13 @@ void setup() {
 }
 
 void loop() {
-  #if AUDIO
+  #if AUDIO_ENABLED
     player.copy(); // refresh audio
   #endif
   Dabble.processInput();             //this function is used to refresh data obtained from smartphone.Hence calling this function is mandatory in order to get data properly from your mobile.
   if (GamePad.isUpPressed())
   {
-    #if AUDIO
+    #if AUDIO_ENABLED
       player.setIndex(0);
     #endif
     Serial.println("Key Pressed: Up");
@@ -99,7 +99,7 @@ void loop() {
   {
     int idx;
     idx = random(6);
-    #if AUDIO
+    #if AUDIO_ENABLED
       player.setIndex(idx);
     #endif
     Serial.println("Key Pressed: Down");
