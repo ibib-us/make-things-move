@@ -7,25 +7,31 @@
    Explore more on: https://thestempedia.com/docs/dabble/game-pad-module/
 */
 
+// Robot name
+# define ROBOT_NAME "grahamdroid"
+
 // Dabble 
 #define CUSTOM_SETTINGS
 #define INCLUDE_GAMEPAD_MODULE
 #include <DabbleESP32.h>
 
 // Audiotools 
-#include "AudioTools.h"
-#include "AudioCodecs/CodecMP3Helix.h"
-#include "AudioLibs/AudioSourceSPIFFS.h"
+// Uncomment the following line to enable audio
+//#define AUDIO_ENABLED
+#if AUDIO
+  #include "AudioTools.h"
+  #include "AudioCodecs/CodecMP3Helix.h"
+  #include "AudioLibs/AudioSourceSPIFFS.h"
 
+  // Audio setup
+  const char *startFilePath="/sounds";
+  const char *ext="mp3";
 
-// Audio setup
-const char *startFilePath="/sounds";
-const char *ext="mp3";
-
-AudioSourceSPIFFS source(startFilePath, ext);
-AnalogAudioStream sink;
-MP3DecoderHelix decoder;
-AudioPlayer player (source, sink, decoder);
+  AudioSourceSPIFFS source(startFilePath, ext);
+  AnalogAudioStream sink;
+  MP3DecoderHelix decoder;
+  AudioPlayer player (source, sink, decoder);
+#endif
 
 // Servo defines for low-level operation
 #define COUNT_LOW 1800
@@ -44,14 +50,19 @@ int driveNeg = 21;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);      // make sure your Serial Monitor is also set at this baud rate.
-  Dabble.begin("MS1m");       //set bluetooth name of your device
-  AudioLogger::instance().begin(Serial, AudioLogger::Warning); // Audiotools logger level
-
-  // begin audio processing
-  auto cfg = sink.defaultConfig();
-  sink.begin(cfg);
-  player.begin();
-  player.setAutoNext(false);
+  Dabble.begin(ROBOT_NAME);       //set bluetooth name of your device
+  #if AUDIO
+    Serial.println("Audio enabled");
+    AudioLogger::instance().begin(Serial, AudioLogger::Warning); // Audiotools logger level
+  
+    // begin audio processing
+    auto cfg = sink.defaultConfig();
+    sink.begin(cfg);
+    player.begin();
+    player.setAutoNext(false);
+  #else 
+    Serial.println("Audio disabled");
+  #endif
 
   // Set up servo PWM, fixed at 50 hz
   ledcSetup(SERVO_CHANNEL,50,TIMER_WIDTH);
@@ -72,26 +83,31 @@ void setup() {
 }
 
 void loop() {
-  player.copy(); // refresh audio
+  #if AUDIO
+    player.copy(); // refresh audio
+  #endif
   Dabble.processInput();             //this function is used to refresh data obtained from smartphone.Hence calling this function is mandatory in order to get data properly from your mobile.
-  Serial.print("KeyPressed: ");
   if (GamePad.isUpPressed())
   {
-    player.setIndex(0);
-    Serial.print("Up");
+    #if AUDIO
+      player.setIndex(0);
+    #endif
+    Serial.println("Key Pressed: Up");
   }
 
   if (GamePad.isDownPressed())
   {
     int idx;
     idx = random(6);
-    player.setIndex(idx);
-    Serial.print("Down");
+    #if AUDIO
+      player.setIndex(idx);
+    #endif
+    Serial.println("Key Pressed: Down");
   }
 
   if (GamePad.isLeftPressed())
   {
-    Serial.print("Left");
+    Serial.println("Key Pressed: left");
     servoCount += 10;
     servoCount = constrain(servoCount, COUNT_LOW, COUNT_HIGH);
     ledcWrite(SERVO_CHANNEL,servoCount);
@@ -99,7 +115,7 @@ void loop() {
 
   if (GamePad.isRightPressed())
   {
-    Serial.print("Right");
+    Serial.println("Key Pressed: Right");
     servoCount -= 10;
     servoCount = constrain(servoCount, COUNT_LOW, COUNT_HIGH);
     ledcWrite(SERVO_CHANNEL,servoCount);
@@ -107,23 +123,23 @@ void loop() {
 
   if (GamePad.isSquarePressed())
   {
-    Serial.print("Square");
+    Serial.println("Key Pressed: Square");
   }
 
   if (GamePad.isCirclePressed())
   {
-    Serial.print("Circle");
+    Serial.println("Key Pressed: Circle");
   }
 
   if (GamePad.isCrossPressed())
   {
-    Serial.print("Cross");
+    Serial.println("Key Pressed: Cross");
     //digitalWrite(drivePos, HIGH);
     ledcWrite(FWD_CHANNEL,200);
     //digitalWrite(driveNeg, LOW);
     ledcWrite(REV_CHANNEL, 0);
   } else if (GamePad.isTrianglePressed()) {
-    Serial.print("Triangle");
+    Serial.println("Key Pressed: Triangle");
     //digitalWrite(drivePos, LOW);
     ledcWrite(FWD_CHANNEL,0);
     //digitalWrite(driveNeg, HIGH);
@@ -137,29 +153,28 @@ void loop() {
 
   if (GamePad.isStartPressed())
   {
-    Serial.print("Start");
+    Serial.println("Key Pressed: Start");
   }
 
   if (GamePad.isSelectPressed())
   {
-    Serial.print("Select");
+    Serial.println("Key Pressed: Select");
   }
-  Serial.print('\t');
 
   int a = GamePad.getAngle();
-  Serial.print("Angle: ");
-  Serial.print(a);
-  Serial.print('\t');
+  // Uncomment to turn on noisy logging of gamepad angle
+  // Serial.print("Angle: ");
+  // Serial.println(a);
   int b = GamePad.getRadius();
-  Serial.print("Radius: ");
-  Serial.print(b);
-  Serial.print('\t');
+  // Uncomment to turn on noisy logging of gamepad radius
+  // Serial.print("Radius: ");
+  // Serial.println(b);
   float c = GamePad.getXaxisData();
-  Serial.print("x_axis: ");
-  Serial.print(c);
-  Serial.print('\t');
+  // Uncomment to turn on noisy logging of gamepad x-axis
+  // Serial.print("x_axis: ");
+  // Serial.println(c);
   float d = GamePad.getYaxisData();
-  Serial.print("y_axis: ");
-  Serial.println(d);
-  Serial.println();
+  // Uncomment to turn on noisy logging of gamepad y-axis
+  // Serial.print("y_axis: ");
+  // Serial.println(d);
 }
