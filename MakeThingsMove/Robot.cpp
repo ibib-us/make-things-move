@@ -4,6 +4,7 @@
 
 /*
  * A class which defines how a robot moves.
+ * Update this class when changes are made to the robot hardware.
  */
 Robot::Robot() {
   // Robot is initially stopped
@@ -20,7 +21,6 @@ void Robot::init() {
   // Set up servo PWM, fixed at 50 hz
   ledcSetup(SERVO_CHANNEL,50,TIMER_WIDTH);
   ledcAttachPin(SERVO_PIN, SERVO_CHANNEL);
-    
 
   // Set up forward and reverse drive PWMs
   ledcAttachPin(drivePos, FWD_CHANNEL);
@@ -39,13 +39,15 @@ void Robot::init() {
 void Robot::move(float speed) {
   float abs_speed = std::abs(speed);
   if (abs_speed >= 0.0f && abs_speed <= 1.0f) {
+    // Calculate drive motor frequency based on desired speed
+    int frequency = std::round((MAX_HZ - MIN_HZ) * abs_speed) + MIN_HZ;
     if (speed > 0) {
-      // Set forward PWM frequency based on speed
-      ledcWrite(FWD_CHANNEL, std::round((MAX_HZ - MIN_HZ) * abs_speed));
+      // Set forward PWM frequency
+      ledcWrite(FWD_CHANNEL, frequency);
       ledcWrite(REV_CHANNEL, 0);
     } else if (speed < 0) {
-      // Set reverse PWM frequency based on speed
-      ledcWrite(REV_CHANNEL, std::round((MAX_HZ - MIN_HZ) * abs_speed));
+      // Set reverse PWM frequency
+      ledcWrite(REV_CHANNEL, frequency);
       ledcWrite(FWD_CHANNEL, 0);
     } else {
       stop();
@@ -77,7 +79,7 @@ void Robot::stop() {
 void Robot::steer(float angle) {
   if (angle >= 0.0f && angle <= 180.0f) {
     // Set steering servo duty based on angle
-    ledcWrite(SERVO_CHANNEL, std::round((MAX_DUTY - MIN_DUTY) * (angle / 180)));
+    ledcWrite(SERVO_CHANNEL, std::round((MAX_DUTY - MIN_DUTY) * (angle / 180) + MIN_DUTY));
     currentAngle = angle;
   }
 }

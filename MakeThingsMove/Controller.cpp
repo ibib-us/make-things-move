@@ -8,7 +8,7 @@
 /*
  * A class which allows custom functions to be called 
  * when buttons on a Dabble gamepad are pressed or released.
- * Does not require any modifications in order to be used across different projects.
+ * Does not require any modifications in order to be used in different projects.
  */
 Controller::Controller() {
   // All the buttons start in the unpressed state with no action assigned.
@@ -45,16 +45,16 @@ void Controller::registerCallback(const std::string& buttonName, std::function<v
  * and trigger the associated function if the state has changed.
  */
 void Controller::setButtonState(const std::string& buttonName, bool newState) {
-    // Check if a button exists with the given name
-    if (buttonStates.find(buttonName) != buttonStates.end()) {
-        ButtonData& buttonData = buttonStates[buttonName];
-        // Check if the button state has changed
-        if (buttonData.state != newState) {
-            buttonData.state = newState;
-            // Call the button's callback with its state information
-            buttonData.callback(newState);
-        }
-    }
+  // Check if a button exists with the given name
+  if (buttonStates.find(buttonName) != buttonStates.end()) {
+      ButtonData& buttonData = buttonStates[buttonName];
+      // Check if the button state has changed
+      if (buttonData.state != newState) {
+          buttonData.state = newState;
+          // Call the button's callback with its state information
+          buttonData.callback(newState);
+      }
+  }
 }
 
 /*

@@ -1,66 +1,23 @@
-#include "Controller.h"
 #include "ControlFunctions.h"
 
-// Robot name
-#define ROBOT_NAME "grahamdroid"
+/*
+ * An Arduino sketch to control a robot.
+ * See ControlFunctions.cpp to change robot name, behavior or control scheme.
+ * See Robot.cpp if changes are made to robot hardware.
+ */
 
-// Uncomment the following line to enable audio
-//#define AUDIO_ENABLED
-#if AUDIO_ENABLED
-  #include "AudioTools.h"
-  #include "AudioCodecs/CodecMP3Helix.h"
-  #include "AudioLibs/AudioSourceSPIFFS.h"
-
-  // Audio setup
-  const char *startFilePath="/sounds";
-  const char *ext="mp3";
-
-  AudioSourceSPIFFS source(startFilePath, ext);
-  AnalogAudioStream sink;
-  MP3DecoderHelix decoder;
-  AudioPlayer player (source, sink, decoder);
-#endif
-
-Controller controller;
-
+/*
+ * This function runs on startup. It calls init_everything()
+ * to set up the robot and the controller.
+ */
 void setup() {
-  // Initialize serial connection
-  Serial.begin(115200);
-
-  // Initialize controller
-  controller.init(ROBOT_NAME);
-
-  // Initialize robot
-  init_robot();
-
-  // Connect controller buttons to robot functions
-  controller.registerCallback("triangle", driveForward);
-  controller.registerCallback("x", driveBackward);
-  controller.registerCallback("left", steerLeft);
-  controller.registerCallback("right", steerRight);
-
-  #if AUDIO_ENABLED
-    Serial.println("Audio enabled");
-    AudioLogger::instance().begin(Serial, AudioLogger::Warning); // Audiotools logger level
-  
-    // begin audio processing
-    auto cfg = sink.defaultConfig();
-    sink.begin(cfg);
-    player.begin();
-    player.setAutoNext(false);
-  #else 
-    Serial.println("Audio disabled");
-  #endif
-
+  init_everything();
 }
 
 /*
- * Run the controller's update() function to allow it to 
- * check for button presses and perform the associated robot actions.
+ * This function runs repeatedly. It calls the update() function to  
+ * make the robot move in response to button presses.
  */
 void loop() {
-  #if AUDIO_ENABLED
-    player.copy(); // refresh audio
-  #endif
-  controller.update();
+  update();
 }
