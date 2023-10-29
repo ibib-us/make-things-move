@@ -1,6 +1,7 @@
 #include "Robot.h"
 #include "esp32-hal-ledc.h"
 #include <cmath>
+#include <Arduino.h>
 
 /*
  * A class which defines how a robot moves.
