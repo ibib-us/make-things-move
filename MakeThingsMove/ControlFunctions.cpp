@@ -75,6 +75,24 @@ void steerLeft(bool pressed) {
   }
 }
 
+void incDuty(bool pressed) {
+  if (pressed) {
+    int duty = robot.getDuty() + 100;
+    Serial.print("Setting duty to ");
+    Serial.println(duty);
+    robot.setDuty(duty);
+  }
+}
+
+void decDuty(bool pressed) {
+  if (pressed) {
+    int duty = robot.getDuty() - 100;
+    Serial.print("Setting duty to ");
+    Serial.println(duty);
+    robot.setDuty(duty);
+  }
+}
+
 /*
  * Connect controller buttons to robot functions
  */
@@ -83,6 +101,8 @@ void registerRobotFunctions() {
   controller.registerCallback("x", driveBackward);
   controller.registerCallback("left", steerLeft);
   controller.registerCallback("right", steerRight);
+  controller.registerCallback("up", incDuty);
+  controller.registerCallback("down", decDuty);
 }
 
 /*

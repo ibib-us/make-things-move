@@ -41,8 +41,11 @@ public:
   void stop();
   void steer(float angle);
   float getSteeringAngle();
+  int getDuty();
+  void setDuty(int duty);
 
 private:
   float currentSpeed;
   float currentAngle;
+  int currentDuty;
 };

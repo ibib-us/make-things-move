@@ -13,6 +13,8 @@ Robot::Robot() {
 
   // Robot is initially pointed straight forward 
   float currentAngle = 90;
+
+  int currentDuty;
 }
 
 /**
@@ -22,6 +24,7 @@ void Robot::init() {
   // Set up servo PWM, fixed at 50 hz
   ledcSetup(SERVO_CHANNEL,50,SERVO_PWM_RESOLUTION);
   ledcAttachPin(SERVO_PIN, SERVO_CHANNEL);
+  steer(90);
 
   // Set up forward and reverse drive PWMs
   ledcAttachPin(drivePos, FWD_CHANNEL);
@@ -82,9 +85,19 @@ void Robot::steer(float angle) {
     int duty = std::round((MAX_DUTY - MIN_DUTY) * (angle / 180) + MIN_DUTY);
     ledcWrite(SERVO_CHANNEL, duty);
     currentAngle = angle;
+    currentDuty = duty;
   }
 }
 
 float Robot::getSteeringAngle() {
   return currentAngle;
+}
+
+void Robot::setDuty(int duty) {
+  ledcWrite(SERVO_CHANNEL, duty);
+  currentDuty = duty;
+}
+
+int Robot::getDuty() {
+  return currentDuty;
 }
