@@ -19,16 +19,20 @@ Robot::Robot() {
  */
 void Robot::init() {
   // Set up servo PWM, fixed at 50 hz
-  ledcSetup(SERVO_CHANNEL,50,TIMER_WIDTH);
+  ledcSetup(SERVO_CHANNEL,50,SERVO_PWM_RESOLUTION);
   ledcAttachPin(SERVO_PIN, SERVO_CHANNEL);
 
   // Set up forward and reverse drive PWMs
   ledcAttachPin(drivePos, FWD_CHANNEL);
-  ledcSetup(FWD_CHANNEL,5000,8);
+  ledcSetup(FWD_CHANNEL,DRIVE_PWM_HZ,DRIVE_PWM_RESOLUTION);
   ledcWrite(FWD_CHANNEL,0);
   ledcAttachPin(driveNeg, REV_CHANNEL);
-  ledcSetup(REV_CHANNEL, 5000,8);
+  ledcSetup(REV_CHANNEL, DRIVE_PWM_HZ,DRIVE_PWM_RESOLUTION);
   ledcWrite(REV_CHANNEL,0);
+
+  // Light up the onboard LED to indicate that the system has power
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN,HIGH);
 }
 
 /**
@@ -39,15 +43,15 @@ void Robot::init() {
 void Robot::move(float speed) {
   float abs_speed = std::abs(speed);
   if (abs_speed >= 0.0f && abs_speed <= 1.0f) {
-    // Calculate drive motor frequency based on desired speed
-    int frequency = std::round((MAX_HZ - MIN_HZ) * abs_speed) + MIN_HZ;
+    // Calculate drive motor duty based on desired speed
+    int duty = std::round((MAX_DRIVE_DUTY - MIN_DRIVE_DUTY) * abs_speed) + MIN_DRIVE_DUTY;
     if (speed > 0) {
-      // Set forward PWM frequency
-      ledcWrite(FWD_CHANNEL, frequency);
+      // Set forward PWM duty
+      ledcWrite(FWD_CHANNEL, duty);
       ledcWrite(REV_CHANNEL, 0);
     } else if (speed < 0) {
-      // Set reverse PWM frequency
-      ledcWrite(REV_CHANNEL, frequency);
+      // Set reverse PWM duty
+      ledcWrite(REV_CHANNEL, duty);
       ledcWrite(FWD_CHANNEL, 0);
     } else {
       stop();
@@ -61,13 +65,8 @@ float Robot::getSpeed() {
 }
 
 void Robot::stop() {
-  if (currentSpeed > 0) {
-    // Stop forward PWM
-    ledcWrite(FWD_CHANNEL, 0);
-  } else if (currentSpeed < 0) {
-    // Stop reverse PWM
-    ledcWrite(REV_CHANNEL, 0);
-  }
+  ledcWrite(FWD_CHANNEL, 0);
+  ledcWrite(REV_CHANNEL, 0);
   currentSpeed = 0;
 }
 
@@ -79,7 +78,8 @@ void Robot::stop() {
 void Robot::steer(float angle) {
   if (angle >= 0.0f && angle <= 180.0f) {
     // Set steering servo duty based on angle
-    ledcWrite(SERVO_CHANNEL, std::round((MAX_DUTY - MIN_DUTY) * (angle / 180) + MIN_DUTY));
+    int duty = std::round((MAX_DUTY - MIN_DUTY) * (angle / 180) + MIN_DUTY);
+    ledcWrite(SERVO_CHANNEL, duty);
     currentAngle = angle;
   }
 }
