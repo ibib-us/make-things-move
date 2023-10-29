@@ -22,13 +22,12 @@ Controller controller;
 void driveForward(bool pressed) {
   Serial.print("Robot ");
   if (pressed) {
-      Serial.print("is moving forward");
+      Serial.println("is moving forward");
       robot.move(1.0f);
   } else {
-      Serial.print("has stopped");
+      Serial.println("has stopped");
       robot.stop();
   }
-  Serial.println();
 }
 
 /*
@@ -38,13 +37,12 @@ void driveForward(bool pressed) {
 void driveBackward(bool pressed) {
   Serial.print("Robot ");
   if (pressed) {
-      Serial.print("is moving backward");
+      Serial.println("is moving backward");
       robot.move(-1.0f);
   } else {
-      Serial.print("has stopped");
+      Serial.println("has stopped");
       robot.stop();
   }
-  Serial.println();
 }
 
 /*
@@ -54,13 +52,12 @@ void driveBackward(bool pressed) {
 void steerRight(bool pressed) {
   Serial.print("Robot ");
   if (pressed) {
-      Serial.print("is steering right");
+      Serial.println("is steering right");
       robot.steer(180.0f);
   } else {
-      Serial.print("is steering forward");
+      Serial.println("is steering forward");
       robot.steer(90.0f);
   }
-  Serial.println();
 }
 
 /*
@@ -70,13 +67,12 @@ void steerRight(bool pressed) {
 void steerLeft(bool pressed) {
   Serial.print("Robot ");
   if (pressed) {
-      Serial.print("is steering left");
+      Serial.println("is steering left");
       robot.steer(0.0f);
   } else {
-      Serial.print("is steering forward");
+      Serial.println("is steering forward");
       robot.steer(90.0f);
   }
-  Serial.println();
 }
 
 /*
