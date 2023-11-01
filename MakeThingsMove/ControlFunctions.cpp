@@ -2,15 +2,13 @@
 #include "AudioPlayer.h"
 #include "Controller.h"
 #include "Robot.h"
+#include "Settings.h"
 
 /* 
  * Functions to set robot speed and steering angle 
  * in response to button press and release events.
  * Update this code if different robot behavior or control scheme is desired.
  */
-
- // Robot name
-#define ROBOT_NAME "grahamdroid"
 
 Robot robot;
 Controller controller;
@@ -75,6 +73,10 @@ void steerLeft(bool pressed) {
   }
 }
 
+/*
+ * This method is used for debugging the robot's duty settings,
+ * not for controlling the robot.
+ */
 void incDuty(bool pressed) {
   if (pressed) {
     int duty = robot.getDuty() + 100;
@@ -84,6 +86,10 @@ void incDuty(bool pressed) {
   }
 }
 
+/*
+ * This method is used for debugging the robot's duty settings,
+ * not for controlling the robot.
+ */
 void decDuty(bool pressed) {
   if (pressed) {
     int duty = robot.getDuty() - 100;
@@ -101,8 +107,11 @@ void registerRobotFunctions() {
   controller.registerCallback("x", driveBackward);
   controller.registerCallback("left", steerLeft);
   controller.registerCallback("right", steerRight);
-  controller.registerCallback("up", incDuty);
-  controller.registerCallback("down", decDuty);
+  #ifdef DEBUG_MODE
+    // Enable debugging functions
+    controller.registerCallback("up", incDuty);
+    controller.registerCallback("down", decDuty);
+  #endif
 }
 
 /*

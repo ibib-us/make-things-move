@@ -1,11 +1,9 @@
 #include <Arduino.h>
+#include "Settings.h"
 
 /*
  * Audio player logic.
  */
-
-// Uncomment the following line to enable audio
-// #define AUDIO_ENABLED
 
 #ifdef AUDIO_ENABLED
   #include "AudioPlayer.h"

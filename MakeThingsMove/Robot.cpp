@@ -2,6 +2,7 @@
 #include "esp32-hal-ledc.h"
 #include <cmath>
 #include <Arduino.h>
+#include "Settings.h"
 
 /*
  * A class which defines how a robot moves.
@@ -34,9 +35,11 @@ void Robot::init() {
   ledcSetup(REV_CHANNEL, DRIVE_PWM_HZ,DRIVE_PWM_RESOLUTION);
   ledcWrite(REV_CHANNEL,0);
 
-  // Light up the onboard LED to indicate that the system has power
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN,HIGH);
+  #ifdef DEBUG_MODE
+    // Light up the onboard LED to indicate that the system has power
+    pinMode(LED_BUILTIN, OUTPUT);
+    digitalWrite(LED_BUILTIN,HIGH);
+  #endif
 }
 
 /**
