@@ -2,15 +2,11 @@
 
 // Servo constants
 
-// The duty cycle at which the robot's servo motor points the robot all the way to the left
-#define MIN_DUTY 1800
-// The duty cycle at which the robot's servo motor points the robot all the way to the right
-#define MAX_DUTY 7800
-// TODO what is this?
+// The resolution of the servo PWM
 #define SERVO_PWM_RESOLUTION 16
 // The pin that the servo's control wire is connected to
 #define SERVO_PIN 16
-// TODO what is this?
+// Channel to control servo PWM
 #define SERVO_CHANNEL 1
 
 // Drive motor constants

@@ -85,7 +85,7 @@ void Robot::stop() {
 void Robot::steer(float angle) {
   if (angle >= 0.0f && angle <= 180.0f) {
     // Set steering servo duty based on angle
-    int duty = std::round((MAX_DUTY - MIN_DUTY) * (angle / 180) + MIN_DUTY);
+    int duty = std::round((MAX_SERVO_DUTY - MIN_SERVO_DUTY) * (angle / 180) + MIN_SERVO_DUTY);
     ledcWrite(SERVO_CHANNEL, duty);
     currentAngle = angle;
     currentDuty = duty;
