@@ -2,6 +2,7 @@
 #include "esp32-hal-ledc.h"
 #include <cmath>
 #include <Arduino.h>
+#include "Settings.h"
 
 /*
  * A class which defines how a robot moves.
@@ -13,6 +14,8 @@ Robot::Robot() {
 
   // Robot is initially pointed straight forward 
   float currentAngle = 90;
+
+  int currentDuty;
 }
 
 /**
@@ -22,6 +25,7 @@ void Robot::init() {
   // Set up servo PWM, fixed at 50 hz
   ledcSetup(SERVO_CHANNEL,50,SERVO_PWM_RESOLUTION);
   ledcAttachPin(SERVO_PIN, SERVO_CHANNEL);
+  steer(90);
 
   // Set up forward and reverse drive PWMs
   ledcAttachPin(drivePos, FWD_CHANNEL);
@@ -31,9 +35,11 @@ void Robot::init() {
   ledcSetup(REV_CHANNEL, DRIVE_PWM_HZ,DRIVE_PWM_RESOLUTION);
   ledcWrite(REV_CHANNEL,0);
 
-  // Light up the onboard LED to indicate that the system has power
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN,HIGH);
+  #ifdef DEBUG_MODE
+    // Light up the onboard LED to indicate that the system has power
+    pinMode(LED_BUILTIN, OUTPUT);
+    digitalWrite(LED_BUILTIN,HIGH);
+  #endif
 }
 
 /**
@@ -79,12 +85,22 @@ void Robot::stop() {
 void Robot::steer(float angle) {
   if (angle >= 0.0f && angle <= 180.0f) {
     // Set steering servo duty based on angle
-    int duty = std::round((MAX_DUTY - MIN_DUTY) * (angle / 180) + MIN_DUTY);
+    int duty = std::round((MAX_SERVO_DUTY - MIN_SERVO_DUTY) * (angle / 180) + MIN_SERVO_DUTY);
     ledcWrite(SERVO_CHANNEL, duty);
     currentAngle = angle;
+    currentDuty = duty;
   }
 }
 
 float Robot::getSteeringAngle() {
   return currentAngle;
+}
+
+void Robot::setDuty(int duty) {
+  ledcWrite(SERVO_CHANNEL, duty);
+  currentDuty = duty;
+}
+
+int Robot::getDuty() {
+  return currentDuty;
 }

@@ -2,7 +2,8 @@
 
 /*
  * An Arduino sketch to control a robot.
- * See ControlFunctions.cpp to change robot name, behavior or control scheme.
+ * See Settings.h to change robot name and enable audio or debugging mode.
+ * See ControlFunctions.cpp to change behavior or control scheme.
  * See Robot.cpp if changes are made to robot hardware.
  */
 
